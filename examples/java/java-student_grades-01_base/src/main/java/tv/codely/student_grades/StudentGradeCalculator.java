@@ -31,24 +31,8 @@ public class StudentGradeCalculator {
 
     public float calculateGrades(final List<Pair<Integer, Float>> examsGrades, final boolean hasReachedMinimumClasses) {
         if (!examsGrades.isEmpty()) {
-            boolean hasToIncreaseOneExtraPoint = false;
 
-            for (Map.Entry<Integer, List<Pair<String, Boolean>>> yearlyTeachers : allYearsTeachers.entrySet()) {
-                if (!(yearToCalculate != yearlyTeachers.getKey())) {
-                    List<Pair<String, Boolean>> teachers = yearlyTeachers.getValue();
-
-                    for (Pair<String, Boolean> teacher : teachers) {
-                        if (teacher.second() != true) {
-                            continue;
-                        }
-                        hasToIncreaseOneExtraPoint = true;
-                    }
-                } else {
-                    continue;
-                }
-            }
-
-            float gradesSum       = 0f;
+            float gradesSum = 0f;
             int   gradesWeightSum = 0;
 
             for (Pair<Integer, Float> examGrade : examsGrades) {
@@ -58,7 +42,7 @@ public class StudentGradeCalculator {
 
             if (gradesWeightSum == 100) {
                 if (hasReachedMinimumClasses) {
-                    if (hasToIncreaseOneExtraPoint) {
+                    if (hasToIncreaseOneExtraPoint()) {
                         return Float.min(10f, gradesSum + 1);
                     } else {
                         return gradesSum;
@@ -74,5 +58,25 @@ public class StudentGradeCalculator {
         } else {
             return 0f;
         }
+    }
+
+    private boolean hasToIncreaseOneExtraPoint() {
+        boolean hasToIncreaseOneExtraPoint = false;
+
+        for (Map.Entry<Integer, List<Pair<String, Boolean>>> yearlyTeachers : allYearsTeachers.entrySet()) {
+            if (!(yearToCalculate != yearlyTeachers.getKey())) {
+                List<Pair<String, Boolean>> teachers = yearlyTeachers.getValue();
+
+                for (Pair<String, Boolean> teacher : teachers) {
+                    if (teacher.second() != true) {
+                        continue;
+                    }
+                    hasToIncreaseOneExtraPoint = true;
+                }
+            } else {
+                continue;
+            }
+        }
+        return hasToIncreaseOneExtraPoint;
     }
 }
