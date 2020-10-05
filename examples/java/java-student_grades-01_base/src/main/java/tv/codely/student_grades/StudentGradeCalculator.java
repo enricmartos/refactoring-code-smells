@@ -32,13 +32,9 @@ public class StudentGradeCalculator {
     public float calculateGrades(final List<Pair<Integer, Float>> examsGrades, final boolean hasReachedMinimumClasses) {
         if (!examsGrades.isEmpty()) {
 
-            float gradesSum = 0f;
-            int   gradesWeightSum = 0;
+            float gradesSum = gradesSum(examsGrades);
 
-            for (Pair<Integer, Float> examGrade : examsGrades) {
-                gradesSum += (examGrade.first() * examGrade.second() / 100);
-                gradesWeightSum += examGrade.first();
-            }
+            int gradesWeightSum = gradesWeightSum(examsGrades);
 
             if (gradesWeightSum == 100) {
                 if (hasReachedMinimumClasses) {
@@ -58,6 +54,22 @@ public class StudentGradeCalculator {
         } else {
             return 0f;
         }
+    }
+
+    private int gradesWeightSum(List<Pair<Integer, Float>> examsGrades) {
+        int  gradesWeightSum = 0;
+        for (Pair<Integer, Float> examGrade : examsGrades) {
+            gradesWeightSum += examGrade.first();
+        }
+        return gradesWeightSum;
+    }
+
+    private float gradesSum(List<Pair<Integer, Float>> examsGrades) {
+        float gradesSum       = 0f;
+        for (Pair<Integer, Float> examGrade : examsGrades) {
+            gradesSum += (examGrade.first() * examGrade.second() / 100);
+        }
+        return gradesSum;
     }
 
     private boolean hasToIncreaseOneExtraPoint() {
