@@ -33,7 +33,6 @@ public class StudentGradeCalculator {
         if (!examsGrades.isEmpty()) {
 
             float gradesSum = gradesSum(examsGrades);
-
             int gradesWeightSum = gradesWeightSum(examsGrades);
 
             if (gradesWeightSum == 100) {
@@ -57,11 +56,7 @@ public class StudentGradeCalculator {
     }
 
     private int gradesWeightSum(List<Pair<Integer, Float>> examsGrades) {
-        int  gradesWeightSum = 0;
-        for (Pair<Integer, Float> examGrade : examsGrades) {
-            gradesWeightSum += examGrade.first();
-        }
-        return gradesWeightSum;
+        return examsGrades.stream().map(Pair::first).reduce(Integer::sum).get();
     }
 
     private float gradesSum(List<Pair<Integer, Float>> examsGrades) {
